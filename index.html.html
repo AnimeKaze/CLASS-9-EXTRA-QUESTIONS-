@@ -2,1433 +2,853 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Class 9 – Maths & Science Papers Vault</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class 9 Super Study Hub ⚡</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-    body {
-      background: #020617;
-      color: #e5e7eb;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    *{
+      margin:0; padding:0; box-sizing:border-box;
+      font-family:'Poppins', sans-serif;
     }
-    header {
-      padding: 1rem 5vw;
-      border-bottom: 1px solid #1f2937;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
+    body{
+      min-height:100vh;
+      background: radial-gradient(circle at top,#0f2027,#203a43,#2c5364);
+      color:#fff;
     }
-    h1 { font-size: 1.3rem; }
-    .subtitle { font-size: 0.85rem; color: #9ca3af; }
-    .subject-filter {
-      display: flex;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      align-items: center;
+    header{
+      padding:30px 15px 10px;
+      text-align:center;
     }
-    .subject-btn {
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
-      padding: 0.25rem 0.7rem;
-      cursor: pointer;
-      font-size: 0.78rem;
+    header h1{
+      font-size:2.4rem;
+      font-weight:800;
+      letter-spacing:2px;
     }
-    .subject-btn.active {
-      border-color: #6366f1;
-      background: #111827;
+    header p{
+      opacity:0.9;
+      margin-top:8px;
+      font-size:0.9rem;
+    }
+    .sub-header{
+      text-align:center;
+      margin-top:5px;
+      font-size:0.75rem;
+      opacity:0.7;
     }
 
-    main {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 2fr 1.2fr;
-      gap: 1rem;
-      padding: 1rem 5vw 1.5rem;
+    /* screens */
+    .screen{
+      display:none;
+      animation: fadeIn 0.25s ease;
     }
-    @media (max-width: 900px) {
-      main { grid-template-columns: 1fr; }
-      .viewer { height: 60vh; }
+    .screen.active{
+      display:block;
     }
-    .viewer, .sidebar {
-      background: #020617;
-      border-radius: 0.75rem;
-      border: 1px solid #1f2937;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(10px);}
+      to{opacity:1; transform:translateY(0);}
     }
-    .card-header {
-      padding: 0.6rem 0.9rem;
-      border-bottom: 1px solid #1f2937;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      gap: 0.5rem;
-    }
-    .badge {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 999px;
-      border: 1px solid #22c55e;
-      color: #22c55e;
-    }
-    .viewer-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-    }
-    .fs-btn {
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
-      padding: 0.22rem 0.55rem;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-    .fs-btn:hover { border-color: #6366f1; }
 
-    .viewer-body {
-      flex: 1;
-      position: relative;
-      background: #020617;
+    .center-wrap{
+      max-width:1200px;
+      margin:20px auto;
+      padding:0 20px;
+      text-align:center;
     }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #020617;
+    .big-btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      justify-content:center;
+      margin-top:20px;
     }
-    .viewer-empty {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: #9ca3af;
-      font-size: 0.9rem;
-      text-align: center;
-      padding: 0 1rem;
-      pointer-events: none;
+    .big-btn{
+      min-width:220px;
+      padding:16px 22px;
+      border-radius:18px;
+      text-decoration:none;
+      color:#fff;
+      font-size:1rem;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 14px 35px rgba(0,0,0,0.45);
+      transition:transform 0.2s, box-shadow 0.2s, filter 0.2s;
     }
-    .viewer-footer {
-      padding: 0.4rem 0.9rem 0.6rem;
-      border-top: 1px solid #1f2937;
-      font-size: 0.8rem;
-      color: #9ca3af;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5rem;
+    .big-btn.maths{
+      background:linear-gradient(135deg,#3b82f6,#6366f1);
     }
-    .viewer-footer strong { color: #e5e7eb; }
+    .big-btn.science{
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+    }
+    .big-btn:hover{
+      transform:translateY(-4px) scale(1.02);
+      box-shadow:0 18px 40px rgba(0,0,0,0.6);
+      filter:brightness(1.05);
+    }
 
-    .sidebar-body {
-      padding: 0.6rem 0.7rem 0.8rem;
-      overflow-y: auto;
-      max-height: 100%;
+    .section-title{
+      max-width:1200px;
+      margin:18px auto 5px;
+      padding:0 20px;
+      font-size:1.3rem;
+      font-weight:700;
+      letter-spacing:1px;
     }
-    .doc-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
-    .chapter-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #a5b4fc;
-      margin: 0.4rem 0 0.1rem;
-      padding: 0 0.1rem;
+    .section-title span.tagline{
+      display:block;
+      font-size:0.8rem;
+      font-weight:400;
+      opacity:0.7;
+      margin-top:2px;
     }
-    .subject-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #facc15;
-      margin-top: 0.6rem;
-      padding: 0 0.1rem;
+    .container{
+      max-width:1200px;
+      margin:0 auto 10px;
+      padding:10px 20px 0;
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap:18px;
     }
-    .doc-item {
-      padding: 0.5rem 0.7rem;
-      border-radius: 0.6rem;
-      border: 1px solid #1f2937;
-      background: #020617;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.6rem;
-      cursor: pointer;
-      transition: 0.15s;
+    .card{
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border-radius:18px;
+      padding:20px 18px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.35);
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      text-decoration:none;
+      color:#fff;
     }
-    .doc-item:hover {
-      border-color: #4f46e5;
-      background: #0b1120;
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      opacity:0;
+      background:radial-gradient(circle at top,#ffffff33,transparent 60%);
+      transition:opacity 0.25s, transform 0.25s;
+      transform:translateY(20px);
     }
-    .doc-item.active {
-      border-color: #6366f1;
-      background: #111827;
+    .card:hover::before{
+      opacity:1;
+      transform:translateY(0);
     }
-    .doc-main {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      min-width: 0;
+    .card:hover{
+      transform: translateY(-8px) scale(1.02);
+      box-shadow:0 16px 40px rgba(0,0,0,0.6);
+      background: rgba(255,255,255,0.12);
     }
-    .doc-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 0.6rem;
-      background: #111827;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
+    .card h2{
+      font-size:1.1rem;
+      margin-bottom:6px;
     }
-    .doc-text { min-width: 0; }
-    .doc-title {
-      font-size: 0.82rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .card p{
+      font-size:0.87rem;
+      opacity:0.92;
     }
-    .doc-meta {
-      font-size: 0.7rem;
-      color: #9ca3af;
+    .tags-row{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:0.7rem;
     }
-    .doc-extra {
-      text-align: right;
-      font-size: 0.7rem;
-      color: #9ca3af;
-      flex-shrink: 0;
+    .tag{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:50px;
+      background: linear-gradient(90deg,#ff512f,#dd2476);
+      font-size:0.72rem;
+      font-weight:600;
     }
-    .filter-row {
-      display: flex;
-      gap: 0.4rem;
-      padding: 0.5rem 0.7rem 0.3rem;
-      border-bottom: 1px solid #1f2937;
-      font-size: 0.75rem;
-      flex-wrap: wrap;
+    .tag.gray{
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.25);
+      font-weight:500;
     }
-    input, select {
-      background: #020617;
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      color: #e5e7eb;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.75rem;
-      outline: none;
+
+    .back-btn{
+      margin:10px 20px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      font-size:0.85rem;
+      font-weight:600;
+      background:rgba(0,0,0,0.45);
+      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
     }
-    input:focus, select:focus { border-color: #6366f1; }
-    .sort-btn {
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
-      padding: 0.23rem 0.6rem;
-      font-size: 0.74rem;
-      cursor: pointer;
+
+    footer{
+      text-align:center;
+      padding:18px 10px 24px;
+      opacity:0.8;
+      font-size:0.85rem;
     }
-    .sort-btn:hover { border-color: #6366f1; }
+    footer span{display:block;}
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Class 9 – Maths & Science Papers Vault</h1>
-      <div class="subtitle">
-        Subject‑wise and chapter‑wise papers. Maths + Science • Question paper first, then answer key.
-      </div>
+
+<header>
+  <h1>CLASS 9 SUPER STUDY HUB ⚡</h1>
+  <p>All Maths & Science Notes + Extra Questions + Answer Keys in one stylish website.</p>
+  <div class="sub-header">Choose Science or Maths to open a full-screen study space.</div>
+</header>
+
+<!-- HOME SCREEN -->
+<div id="home-screen" class="screen active">
+  <div class="center-wrap">
+    <h2 style="font-size:1.3rem;font-weight:700;">Welcome, Class 9 topper!</h2>
+    <p style="font-size:0.9rem;opacity:0.85;margin-top:6px;">
+      Click a big button below to open Science (Notes + Q&A) or Maths (Q&A + Sample Papers).
+    </p>
+    <div class="big-btn-row">
+      <button class="big-btn science" onclick="showScreen('science-screen')">🔬 Open Science</button>
+      <button class="big-btn maths" onclick="showScreen('maths-screen')">📘 Open Maths</button>
     </div>
-    <div class="subject-filter">
-      <span>Subject:</span>
-      <button class="subject-btn active" data-subject-filter="all">All</button>
-      <button class="subject-btn" data-subject-filter="maths">Maths</button>
-      <button class="subject-btn" data-subject-filter="science">Science</button>
-    </div>
-  </header>
+  </div>
+</div>
 
-  <main>
-    <!-- LEFT: Viewer -->
-    <section class="viewer" id="viewerContainer">
-      <div class="card-header">
-        <span>Document viewer</span>
-        <div class="viewer-controls">
-          <button class="fs-btn" id="fsBtn">⛶ Fullscreen</button>
-          <span style="font-size:0.75rem;color:#9ca3af;">Only you edit this folder</span>
-        </div>
+<!-- SCIENCE SCREEN -->
+<div id="science-screen" class="screen">
+  <button class="back-btn" onclick="showScreen('home-screen')">⬅ Back to Class 9</button>
+
+  <!-- SCIENCE NOTES -->
+  <h2 class="section-title">🔬 Science – Notes
+    <span class="tagline">Full chapter NCERT-style notes, diagrams, and key formulas.</span>
+  </h2>
+
+  <section class="container">
+    <a class="card" href="CLASS-9 CH-1 MATTER IN OUR SUROUNDING.pdf" target="_blank">
+      <h2>🌡️ Matter in Our Surroundings</h2>
+      <p>States of matter, evaporation, latent heat with real-life examples.</p>
+      <div class="tags-row">
+        <span class="tag">Chemistry Notes</span>
+        <span class="tag gray">Ch 1</span>
       </div>
-      <div class="viewer-body">
-        <!-- Default PDF: Maths Ch 1 Question Paper -->
-        <iframe
-          id="docFrame"
-          src="maths-class-ix-chapter-01-number-system-practice-paper-01.pdf">
-        </iframe>
-        <div class="viewer-empty" id="viewerEmpty">
-          If you see blank, put all PDFs in the same folder as this HTML and keep file names exactly same.
-        </div>
+    </a>
+
+    <a class="card" href="CLASS-9 CH-2 IS MATTER ARIUND US PURE.pdf" target="_blank">
+      <h2>🧪 Is Matter Around Us Pure?</h2>
+      <p>Solutions, mixtures, separation techniques, chromatography.</p>
+      <div class="tags-row">
+        <span class="tag">Chemistry Notes</span>
+        <span class="tag gray">Ch 2</span>
       </div>
-      <div class="viewer-footer">
-        <div>Now showing: <strong id="currentTitle">Ch 1 – Number System – Practice Paper 01 (Question Paper)</strong></div>
-        <div>Tip: Press Esc to exit fullscreen.</div>
+    </a>
+
+    <a class="card" href="CLASS-9 CH-3 ATOMS AND MOLECULES.pdf" target="_blank">
+      <h2>⚛️ Atoms & Molecules</h2>
+      <p>Laws of chemical combination, mole concept, formulas.</p>
+      <div class="tags-row">
+        <span class="tag">Chemistry Notes</span>
+        <span class="tag gray">Ch 3</span>
       </div>
-    </section>
+    </a>
 
-    <!-- RIGHT: List -->
-    <section class="sidebar">
-      <div class="card-header">
-        <span>All chapters & tests</span>
-        <span style="font-size: 0.75rem; color:#9ca3af;">Q.P. → Answers</span>
+    <a class="card" href="CLASS-9 CH-4 STRUCTURE OF THE ATOM.pdf" target="_blank">
+      <h2>🔬 Structure of the Atom</h2>
+      <p>Atomic models, electrons, protons, neutrons, isotopes.</p>
+      <div class="tags-row">
+        <span class="tag">Chemistry Notes</span>
+        <span class="tag gray">Ch 4</span>
       </div>
-      <div class="filter-row">
-        <input id="searchInput" placeholder="Search title..." />
-        <select id="filterType">
-          <option value="all">All types</option>
-          <option value="qp">Question paper</option>
-          <option value="answers">Answer key</option>
-        </select>
-        <button class="sort-btn" id="sortBtn">Sort A–Z</button>
+    </a>
+
+    <a class="card" href="CLASS-9 CH-5 FUNDAMENTAL UNIT OF LIFE.pdf" target="_blank">
+      <h2>🧬 Fundamental Unit of Life</h2>
+      <p>Cell theory, organelles, mitosis & meiosis.</p>
+      <div class="tags-row">
+        <span class="tag">Biology Notes</span>
+        <span class="tag gray">Ch 5</span>
       </div>
-      <div class="sidebar-body">
-        <ul class="doc-list" id="docList">
+    </a>
 
-          <!-- ================= MATHS SECTION ================= -->
-          <div class="subject-label">Maths</div>
-
-          <!-- CHAPTER 1 -->
-          <div class="chapter-title">Ch 1 – Number System</div>
-          <li class="doc-item active"
-              data-subject="maths"
-              data-title="Maths Ch 1 – Number System – Practice Paper 01 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-01-number-system-practice-paper-01.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 1 – Number System – Practice Paper 01 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 01</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 1</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 1 – Number System – Practice Paper 01 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-01-number-system-practice-paper-01-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 1 – Number System – Practice Paper 01 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 01</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 1</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 2 -->
-          <div class="chapter-title">Ch 2 – Polynomials</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 2 – Polynomials – Practice Paper 02 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-02-polynomials-practice-paper-02.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 2 – Polynomials – Practice Paper 02 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 02</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 2</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 2 – Polynomials – Practice Paper 02 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-02-polynomials-practice-paper-02-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 2 – Polynomials – Practice Paper 02 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 02</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 2</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 3 -->
-          <div class="chapter-title">Ch 3 – Coordinate Geometry</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 3 – Coordinate Geometry – Practice Paper 03 2024 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-03-coordinate-geometry-practice-paper-03-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 3 – Coordinate Geometry – Practice Paper 03 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 3</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 3 – Coordinate Geometry – Practice Paper 03 2024 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-03-coordinate-geometry-practice-paper-03-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 3 – Coordinate Geometry – Practice Paper 03 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 3</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 4 -->
-          <div class="chapter-title">Ch 4 – Linear Equation in Two Variables</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 4 – Linear Equation in Two Variables – Practice Paper 04 2024 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-04-linear-equation-in-two-variables-practice-paper-04-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 4 – Linear Equation in Two Variables – Practice Paper 04 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 4</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 4 – Linear Equation in Two Variables – Practice Paper 04 2024 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-04-linear-equation-in-two-variables-practice-paper-04-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 4 – Linear Equation in Two Variables – Practice Paper 04 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 4</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 5 -->
-          <div class="chapter-title">Ch 5 – Introduction to Euclid's Geometry</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 5 – Introduction to Euclid's Geometry – Practice Paper 06 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-05-introduction-to-euclids-geometry-practice-paper-06.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 5 – Euclid's Geometry – Practice Paper 06 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 06</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 5</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 5 – Introduction to Euclid's Geometry – Practice Paper 06 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-05-introduction-to-euclids-geometry-practice-paper-06-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 5 – Euclid's Geometry – Practice Paper 06 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 06</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 5</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 6 -->
-          <div class="chapter-title">Ch 6 – Lines and Angles</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 6 – Lines and Angles – Practice Paper 07 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-06-lines-and-angles-practice-paper-07.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 6 – Lines and Angles – Practice Paper 07 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 07</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 6</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 6 – Lines and Angles – Practice Paper 07 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-06-lines-and-angles-practice-paper-07-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 6 – Lines and Angles – Practice Paper 07 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 07</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 6</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 7 -->
-          <div class="chapter-title">Ch 7 – Triangles</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 7 – Triangles – Practice Paper 09 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-07-triangles-practice-paper-09.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 7 – Triangles – Practice Paper 09 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 09</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 7</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 7 – Triangles – Practice Paper 09 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-07-triangles-practice-paper-09-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 7 – Triangles – Practice Paper 09 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 09</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 7</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 8 -->
-          <div class="chapter-title">Ch 8 – Quadrilaterals</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 8 – Quadrilaterals – Practice Paper 12 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-08-quadrilaterals-practice-paper-12.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 8 – Quadrilaterals – Practice Paper 12 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 12</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 8</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 8 – Quadrilaterals – Practice Paper 12 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-08-quadrilaterals-practice-paper-12-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 8 – Quadrilaterals – Practice Paper 12 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 12</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 8</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 9 -->
-          <div class="chapter-title">Ch 9 – Circles</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 9 – Circles – Practice Paper 11 2024 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-09-circles-practice-paper-11-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 9 – Circles – Practice Paper 11 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 9</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 9 – Circles – Practice Paper 11 2024 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-09-circles-practice-paper-11-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 9 – Circles – Practice Paper 11 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 9</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 10 -->
-          <div class="chapter-title">Ch 10 – Heron's Formula</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 10 – Heron's Formula – Practice Paper 12 2024 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-10-herons-formula-practice-paper-12-2024-qp.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 10 – Heron's Formula – Practice Paper 12 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 10</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 10 – Heron's Formula – Practice Paper 12 2024 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-10-herons-formula-practice-paper-12-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 10 – Heron's Formula – Practice Paper 12 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 10</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 11 -->
-          <div class="chapter-title">Ch 11 – Surface Areas and Volumes</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 11 – Surface Areas and Volumes – Practice Paper 13 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-11-surface-areas-and-volumes-practice-paper-13-qp.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 11 – Surface Areas and Volumes – Practice Paper 13 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 13</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 11</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 11 – Surface Areas and Volumes – Practice Paper 13 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-11-surface-areas-and-volumes-practice-paper-13-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 11 – Surface Areas and Volumes – Practice Paper 13 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 13</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 11</div>
-            </div>
-          </li>
-
-          <!-- CHAPTER 12 -->
-          <div class="chapter-title">Ch 12 – Statistics</div>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 12 – Statistics – Practice Paper 21 2024 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-chapter-12-statistics-practice-paper-21-2024-qp.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 12 – Statistics – Practice Paper 21 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 12</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Ch 12 – Statistics – Practice Paper 21 2024 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-chapter-12-statistics-practice-paper-21-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Ch 12 – Statistics – Practice Paper 21 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 12</div>
-            </div>
-          </li>
-
-          <!-- SAMPLE PAPERS -->
-          <div class="chapter-title">Maths – Sample Papers (Annual Exam 2025)</div>
-
-          <!-- TEST 1 -->
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Sample Paper – Test 01 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-sample-paper-test-01-for-annual-exam-2025-qp.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q1</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Sample Paper – Test 01 (Q.P.)</div>
-                <div class="doc-meta">Annual Exam 2025 • Question Paper</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Test 1</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Sample Paper – Test 01 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-sample-paper-test-01-for-annual-exam-2025-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A1</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Sample Paper – Test 01 (Answers)</div>
-                <div class="doc-meta">Annual Exam 2025 • Answer Key</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Test 1</div>
-            </div>
-          </li>
-
-          <!-- TEST 2 -->
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Sample Paper – Test 02 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-sample-paper-test-02-for-annual-exam-2025-qp.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q2</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Sample Paper – Test 02 (Q.P.)</div>
-                <div class="doc-meta">Annual Exam 2025 • Question Paper</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Test 2</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Sample Paper – Test 02 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-sample-paper-test-02-for-annual-exam-2025-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A2</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Sample Paper – Test 02 (Answers)</div>
-                <div class="doc-meta">Annual Exam 2025 • Answer Key</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Test 2</div>
-            </div>
-          </li>
-
-          <!-- TEST 3 -->
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Sample Paper – Test 03 (Question Paper)"
-              data-type="qp"
-              data-url="maths-class-ix-sample-paper-test-03-for-annual-exam-2025-qp.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q3</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Sample Paper – Test 03 (Q.P.)</div>
-                <div class="doc-meta">Annual Exam 2025 • Question Paper</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Test 3</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Sample Paper – Test 03 (Answers)"
-              data-type="answers"
-              data-url="maths-class-ix-sample-paper-test-03-for-annual-exam-2025-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A3</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Sample Paper – Test 03 (Answers)</div>
-                <div class="doc-meta">Annual Exam 2025 • Answer Key</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Test 3</div>
-            </div>
-          </li>
-
-          <!-- QUESTION BANK -->
-          <li class="doc-item"
-              data-subject="maths"
-              data-title="Maths Class 9 – Question Bank"
-              data-type="qp"
-              data-url="maths-class-ix-question-bank.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">QB</div>
-              <div class="doc-text">
-                <div class="doc-title">Maths Class 9 – Question Bank</div>
-                <div class="doc-meta">Full syllabus • Practice questions</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Question Bank</div>
-              <div>All Ch.</div>
-            </div>
-          </li>
-
-          <!-- ================= SCIENCE SECTION ================= -->
-          <div class="subject-label">Science</div>
-
-          <!-- Ch 1 – Matter in Our Surroundings -->
-          <div class="chapter-title">Sci Ch 1 – Matter in Our Surroundings</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 1 – Matter in Our Surroundings – Practice Paper 01 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-01-matter-in-our-surroundings-practice-paper-01-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 1 – Matter in Our Surroundings – Practice Paper 01 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 01</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 1</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 1 – Matter in Our Surroundings – Practice Paper 01 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-01-matter-in-our-surroundings-practice-paper-01-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 1 – Matter in Our Surroundings – Practice Paper 01 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 01</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 1</div>
-            </div>
-          </li>
-
-          <!-- Ch 2 – Is Matter Around Us Pure -->
-          <div class="chapter-title">Sci Ch 2 – Is Matter Around Us Pure</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 2 – Is Matter Around Us Pure – Practice Paper 04 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-02-is-matter-around-us-pure-practice-paper-04-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 2 – Is Matter Around Us Pure – Practice Paper 04 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 04</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 2</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 2 – Is Matter Around Us Pure – Practice Paper 04 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-02-is-matter-around-us-pure-practice-paper-04-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 2 – Is Matter Around Us Pure – Practice Paper 04 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 04</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 2</div>
-            </div>
-          </li>
-
-          <!-- Ch 3 – Atoms and Molecules -->
-          <div class="chapter-title">Sci Ch 3 – Atoms and Molecules</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 3 – Atoms and Molecules – Practice Paper 09 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-03-atoms-and-molecules-practice-paper-09-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 3 – Atoms and Molecules – Practice Paper 09 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 09</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 3</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 3 – Atoms and Molecules – Practice Paper 09 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-03-atoms-and-molecules-practice-paper-09-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 3 – Atoms and Molecules – Practice Paper 09 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 09</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 3</div>
-            </div>
-          </li>
-
-          <!-- Ch 4 – Structure of the Atom -->
-          <div class="chapter-title">Sci Ch 4 – Structure of the Atom</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 4 – Structure of the Atom – Practice Paper 10 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-04-structure-of-the-atom-practice-paper-10-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 4 – Structure of the Atom – Practice Paper 10 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 10</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 4</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 4 – Structure of the Atom – Practice Paper 10 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-04-structure-of-the-atom-practice-paper-10-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 4 – Structure of the Atom – Practice Paper 10 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 10</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 4</div>
-            </div>
-          </li>
-
-          <!-- Ch 5 – The Fundamental Unit of Life -->
-          <div class="chapter-title">Sci Ch 5 – The Fundamental Unit of Life</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 5 – The Fundamental Unit of Life – Practice Paper 03 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-05-the-fundamental-unit-of-life-practice-paper-03-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 5 – The Fundamental Unit of Life – Practice Paper 03 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 03</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 5</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 5 – The Fundamental Unit of Life – Practice Paper 03 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-05-the-fundamental-unit-of-life-practice-paper-03-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 5 – The Fundamental Unit of Life – Practice Paper 03 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 03</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 5</div>
-            </div>
-          </li>
-
-          <!-- Ch 6 – Tissues -->
-          <div class="chapter-title">Sci Ch 6 – Tissues</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 6 – Tissues – Practice Paper 06 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-06-tissues-practice-paper-06-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 6 – Tissues – Practice Paper 06 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 06</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 6</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 6 – Tissues – Practice Paper 06 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-06-tissues-practice-paper-06-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 6 – Tissues – Practice Paper 06 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 06</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 6</div>
-            </div>
-          </li>
-
-          <!-- Ch 7 – Motion -->
-          <div class="chapter-title">Sci Ch 7 – Motion</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 7 – Motion – Practice Paper 02 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-07-motion-practice-paper-02.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 7 – Motion – Practice Paper 02 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • Practice 02</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 7</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 7 – Motion – Practice Paper 02 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-07-motion-practice-paper-02-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 7 – Motion – Practice Paper 02 (Answers)</div>
-                <div class="doc-meta">Answer Key • Practice 02</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 7</div>
-            </div>
-          </li>
-
-          <!-- Ch 8 – Force and Laws of Motion -->
-          <div class="chapter-title">Sci Ch 8 – Force and Laws of Motion</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 8 – Force and Laws of Motion – Practice Paper 05 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-8-force-and-laws-of-motion-practice-paper-05-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 8 – Force and Laws of Motion – Practice Paper 05 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 05</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 8</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 8 – Force and Laws of Motion – Practice Paper 05 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-8-force-and-laws-of-motion-practice-paper-05-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 8 – Force and Laws of Motion – Practice Paper 05 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 05</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 8</div>
-            </div>
-          </li>
-
-          <!-- Ch 9 – Gravitation -->
-          <div class="chapter-title">Sci Ch 9 – Gravitation</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 9 – Gravitation – Practice Paper 07 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-09-gravitation-practice-paper-07-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 9 – Gravitation – Practice Paper 07 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 07</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 9</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 9 – Gravitation – Practice Paper 07 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-09-gravitation-practice-paper-07-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 9 – Gravitation – Practice Paper 07 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 07</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 9</div>
-            </div>
-          </li>
-
-          <!-- Ch 10 – Work and Energy -->
-          <div class="chapter-title">Sci Ch 10 – Work and Energy</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 10 – Work and Energy – Practice Paper 11 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-10-work-and-energy-practice-paper-11-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 10 – Work and Energy – Practice Paper 11 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 11</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 10</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 10 – Work and Energy – Practice Paper 11 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-10-work-and-energy-practice-paper-11-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 10 – Work and Energy – Practice Paper 11 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 11</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 10</div>
-            </div>
-          </li>
-
-          <!-- Ch 11 – Sound -->
-          <div class="chapter-title">Sci Ch 11 – Sound</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 11 – Sound – Practice Paper 12 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-11-sound-practice-paper-12-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 11 – Sound – Practice Paper 12 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 12</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 11</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 11 – Sound – Practice Paper 12 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-11-sound-practice-paper-12-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 11 – Sound – Practice Paper 12 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 12</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 11</div>
-            </div>
-          </li>
-
-          <!-- Ch 12 – Improvement in Food Resources -->
-          <div class="chapter-title">Sci Ch 12 – Improvement in Food Resources</div>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 12 – Improvement in Food Resources – Practice Paper 13 2024 (Question Paper)"
-              data-type="qp"
-              data-url="science-class-ix-chapter-12-improvement-in-food-resources-practice-paper-13-2024.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">Q</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 12 – Improvement in Food Resources – Practice Paper 13 2024 (Q.P.)</div>
-                <div class="doc-meta">Question Paper • 2024 • Practice 13</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Q.P.</div>
-              <div>Ch 12</div>
-            </div>
-          </li>
-          <li class="doc-item"
-              data-subject="science"
-              data-title="Science Ch 12 – Improvement in Food Resources – Practice Paper 13 2024 (Answers)"
-              data-type="answers"
-              data-url="science-class-ix-chapter-12-improvement-in-food-resources-practice-paper-13-2024-answers.pdf">
-            <div class="doc-main">
-              <div class="doc-icon">A</div>
-              <div class="doc-text">
-                <div class="doc-title">Science Ch 12 – Improvement in Food Resources – Practice Paper 13 2024 (Answers)</div>
-                <div class="doc-meta">Answer Key • 2024 • Practice 13</div>
-              </div>
-            </div>
-            <div class="doc-extra">
-              <div>Answers</div>
-              <div>Ch 12</div>
-            </div>
-          </li>
-
-        </ul>
+    <a class="card" href="CLASS-9 CH-6 TISSUES.pdf" target="_blank">
+      <h2>🌿 Tissues</h2>
+      <p>Plant & animal tissues with diagrams.</p>
+      <div class="tags-row">
+        <span class="tag">Biology Notes</span>
+        <span class="tag gray">Ch 6</span>
       </div>
-    </section>
-  </main>
+    </a>
 
-  <script>
-    const frame = document.getElementById("docFrame");
-    const viewerEmpty = document.getElementById("viewerEmpty");
-    const currentTitle = document.getElementById("currentTitle");
-    const list = document.getElementById("docList");
-    const searchInput = document.getElementById("searchInput");
-    const filterType = document.getElementById("filterType");
-    const sortBtn = document.getElementById("sortBtn");
-    const viewerContainer = document.getElementById("viewerContainer");
-    const fsBtn = document.getElementById("fsBtn");
-    const subjectButtons = document.querySelectorAll(".subject-btn");
+    <a class="card" href="CLASS-9 CH-7 MOTION.pdf" target="_blank">
+      <h2>🏃 Motion</h2>
+      <p>Distance, displacement, graphs & equations of motion.</p>
+      <div class="tags-row">
+        <span class="tag">Physics Notes</span>
+        <span class="tag gray">Ch 7</span>
+      </div>
+    </a>
 
-    frame.addEventListener("load", () => {
-      viewerEmpty.style.display = "none";
-    });
+    <a class="card" href="CLASS-9 CH-8 FORCE AND LAWS OF MOTION.pdf" target="_blank">
+      <h2>💥 Force & Laws of Motion</h2>
+      <p>Newton’s laws, momentum & examples.</p>
+      <div class="tags-row">
+        <span class="tag">Physics Notes</span>
+        <span class="tag gray">Ch 8</span>
+      </div>
+    </a>
 
-    function getItems() {
-      return Array.from(list.querySelectorAll(".doc-item"));
-    }
+    <a class="card" href="CLASS-9 CH-9 GRAVITATION.pdf" target="_blank">
+      <h2>🌍 Gravitation</h2>
+      <p>Gravity, free fall & numericals.</p>
+      <div class="tags-row">
+        <span class="tag">Physics Notes</span>
+        <span class="tag gray">Ch 9</span>
+      </div>
+    </a>
 
-    function openItem(li) {
-      const url = li.dataset.url;
-      const title = li.dataset.title;
-      if (!url) return;
-      frame.src = url;
-      currentTitle.textContent = title || "Untitled";
-      getItems().forEach(i => i.classList.remove("active"));
-      li.classList.add("active");
-    }
+    <a class="card" href="CLASS-9 CH-10 WORK AND ENERGY.pdf" target="_blank">
+      <h2>⚡ Work & Energy</h2>
+      <p>Work, power, kinetic & potential energy.</p>
+      <div class="tags-row">
+        <span class="tag">Physics Notes</span>
+        <span class="tag gray">Ch 10</span>
+      </div>
+    </a>
 
-    list.addEventListener("click", e => {
-      const li = e.target.closest(".doc-item");
-      if (!li) return;
-      openItem(li);
-    });
+    <a class="card" href="CLASS-9 CH-11 SOUND.pdf" target="_blank">
+      <h2>🔊 Sound</h2>
+      <p>Wave nature & characteristics of sound.</p>
+      <div class="tags-row">
+        <span class="tag">Physics Notes</span>
+        <span class="tag gray">Ch 11</span>
+      </div>
+    </a>
 
-    let subjectFilter = "all";
+    <a class="card" href="CLASS-9 CH-12 IMPROVMENT IN FOOD RESOURCES.pdf" target="_blank">
+      <h2>🌾 Improvement in Food Resources</h2>
+      <p>Crops, manures, fertilisers & storage.</p>
+      <div class="tags-row">
+        <span class="tag">Biology Notes</span>
+        <span class="tag gray">Ch 12</span>
+      </div>
+    </a>
+  </section>
 
-    subjectButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        subjectButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        subjectFilter = btn.dataset.subjectFilter;
-        applyFilters();
-      });
-    });
+  <!-- SCIENCE QNA -->
+  <h2 class="section-title">📝 Science – Extra Questions & Answer Keys
+    <span class="tagline">Practice papers + solutions for every chapter.</span>
+  </h2>
 
-    function applyFilters() {
-      const term = searchInput.value.toLowerCase().trim();
-      const type = filterType.value;
-      getItems().forEach(li => {
-        const title = li.dataset.title.toLowerCase();
-        const t = li.dataset.type;
-        const subj = li.dataset.subject;
-        let ok = true;
+  <section class="container">
+    <a class="card" href="science-class-ix-chapter-01-matter-in-our-surroundings-practice-paper-01-2024.pdf" target="_blank">
+      <h2>Ch 1 – Matter in Our Surroundings (Q.P.)</h2>
+      <p>Mixed objective and long-answer questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 1</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-01-matter-in-our-surroundings-practice-paper-01-2024-answers.pdf" target="_blank">
+      <h2>Ch 1 – Matter in Our Surroundings (Answers)</h2>
+      <p>Complete marking scheme and solved answers.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 1</span>
+      </div>
+    </a>
 
-        if (subjectFilter !== "all" && subj !== subjectFilter) ok = false;
-        if (type !== "all" && t !== type) ok = false;
-        if (term && !title.includes(term)) ok = false;
+    <a class="card" href="science-class-ix-chapter-02-is-matter-around-us-pure-practice-paper-04-2024.pdf" target="_blank">
+      <h2>Ch 2 – Is Matter Around Us Pure (Q.P.)</h2>
+      <p>Separation techniques and numericals.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 2</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-02-is-matter-around-us-pure-practice-paper-04-2024-answers.pdf" target="_blank">
+      <h2>Ch 2 – Is Matter Around Us Pure (Answers)</h2>
+      <p>Detailed step‑wise solution key.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 2</span>
+      </div>
+    </a>
 
-        li.style.display = ok ? "" : "none";
-      });
-    }
+    <a class="card" href="science-class-ix-chapter-03-atoms-and-molecules-practice-paper-09-2024.pdf" target="_blank">
+      <h2>Ch 3 – Atoms & Molecules (Q.P.)</h2>
+      <p>Mole concept numericals and reasoning questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 3</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-03-atoms-and-molecules-practice-paper-09-2024-answers.pdf" target="_blank">
+      <h2>Ch 3 – Atoms & Molecules (Answers)</h2>
+      <p>All numerical steps shown clearly.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 3</span>
+      </div>
+    </a>
 
-    searchInput.addEventListener("input", applyFilters);
-    filterType.addEventListener("change", applyFilters);
+    <a class="card" href="science-class-ix-chapter-04-structure-of-the-atom-practice-paper-10-2024.pdf" target="_blank">
+      <h2>Ch 4 – Structure of the Atom (Q.P.)</h2>
+      <p>Models, valency, and configuration based problems.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 4</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-04-structure-of-the-atom-practice-paper-10-2024-answers.pdf" target="_blank">
+      <h2>Ch 4 – Structure of the Atom (Answers)</h2>
+      <p>Solutions with diagrams where needed.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 4</span>
+      </div>
+    </a>
 
-    let sortAsc = true;
-    sortBtn.addEventListener("click", () => {
-      const items = getItems();
-      items.sort((a, b) => {
-        const ta = a.dataset.title.toLowerCase();
-        const tb = b.dataset.title.toLowerCase();
-        return sortAsc ? ta.localeCompare(tb) : tb.localeCompare(ta);
-      });
-      sortAsc = !sortAsc;
-      sortBtn.textContent = sortAsc ? "Sort A–Z" : "Sort Z–A";
-      list.innerHTML = "";
-      items.forEach(li => list.appendChild(li));
-      applyFilters();
-    });
+    <a class="card" href="science-class-ix-chapter-05-the-fundamental-unit-of-life-practice-paper-03-2024.pdf" target="_blank">
+      <h2>Ch 5 – Fundamental Unit of Life (Q.P.)</h2>
+      <p>Cell structure short and long questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 5</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-05-the-fundamental-unit-of-life-practice-paper-03-2024-answers.pdf" target="_blank">
+      <h2>Ch 5 – Fundamental Unit of Life (Answers)</h2>
+      <p>Labelled diagrams and key points.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 5</span>
+      </div>
+    </a>
 
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        if (viewerContainer.requestFullscreen) {
-          viewerContainer.requestFullscreen();
-        } else if (viewerContainer.webkitRequestFullscreen) {
-          viewerContainer.webkitRequestFullscreen();
-        } else if (viewerContainer.msRequestFullscreen) {
-          viewerContainer.msRequestFullscreen();
-        }
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
-      }
-    }
+    <a class="card" href="science-class-ix-chapter-06-tissues-practice-paper-06-2024.pdf" target="_blank">
+      <h2>Ch 6 – Tissues (Q.P.)</h2>
+      <p>Diagram‑based tissue questions with reasoning.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 6</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-06-tissues-practice-paper-06-2024-answers.pdf" target="_blank">
+      <h2>Ch 6 – Tissues (Answers)</h2>
+      <p>Neat labelled answers for diagrams.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 6</span>
+      </div>
+    </a>
 
-    fsBtn.addEventListener("click", toggleFullscreen);
-  </script>
+    <a class="card" href="science-class-ix-chapter-07-motion-practice-paper-02.pdf" target="_blank">
+      <h2>Ch 7 – Motion (Q.P.)</h2>
+      <p>Graph questions and motion numericals.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 7</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-07-motion-practice-paper-02-answers.pdf" target="_blank">
+      <h2>Ch 7 – Motion (Answers)</h2>
+      <p>Step‑wise solutions for all numericals.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 7</span>
+      </div>
+    </a>
+
+    <a class="card" href="science-class-ix-chapter-8-force-and-laws-of-motion-practice-paper-05-2024.pdf" target="_blank">
+      <h2>Ch 8 – Force & Laws of Motion (Q.P.)</h2>
+      <p>Conceptual and numerical questions on Newton’s laws.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 8</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-8-force-and-laws-of-motion-practice-paper-05-2024-answers.pdf" target="_blank">
+      <h2>Ch 8 – Force & Laws of Motion (Answers)</h2>
+      <p>Clear explanation based solutions.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 8</span>
+      </div>
+    </a>
+
+    <a class="card" href="science-class-ix-chapter-09-gravitation-practice-paper-07-2024.pdf" target="_blank">
+      <h2>Ch 9 – Gravitation (Q.P.)</h2>
+      <p>Numericals on g, mass and weight.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 9</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-09-gravitation-practice-paper-07-2024-answers.pdf" target="_blank">
+      <h2>Ch 9 – Gravitation (Answers)</h2>
+      <p>All gravitational numericals solved.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 9</span>
+      </div>
+    </a>
+
+    <a class="card" href="science-class-ix-chapter-10-work-and-energy-practice-paper-11-2024.pdf" target="_blank">
+      <h2>Ch 10 – Work & Energy (Q.P.)</h2>
+      <p>Mixed pattern paper for full revision.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 10</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-10-work-and-energy-practice-paper-11-2024-answers.pdf" target="_blank">
+      <h2>Ch 10 – Work & Energy (Answers)</h2>
+      <p>Answer key with proper units and steps.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 10</span>
+      </div>
+    </a>
+
+    <a class="card" href="science-class-ix-chapter-11-sound-practice-paper-12-2024.pdf" target="_blank">
+      <h2>Ch 11 – Sound (Q.P.)</h2>
+      <p>Conceptual and numerical questions on sound.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 11</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-11-sound-practice-paper-12-2024-answers.pdf" target="_blank">
+      <h2>Ch 11 – Sound (Answers)</h2>
+      <p>Solutions with explanation of formulas used.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 11</span>
+      </div>
+    </a>
+
+    <a class="card" href="science-class-ix-chapter-12-improvement-in-food-resources-practice-paper-13-2024.pdf" target="_blank">
+      <h2>Ch 12 – Improvement in Food Resources (Q.P.)</h2>
+      <p>Conceptual and short answer questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Sci Ch 12</span>
+      </div>
+    </a>
+    <a class="card" href="science-class-ix-chapter-12-improvement-in-food-resources-practice-paper-13-2024-answers.pdf" target="_blank">
+      <h2>Ch 12 – Improvement in Food Resources (Answers)</h2>
+      <p>Key points and structured answers.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Sci Ch 12</span>
+      </div>
+    </a>
+  </section>
+</div>
+
+<!-- MATHS SCREEN -->
+<div id="maths-screen" class="screen">
+  <button class="back-btn" onclick="showScreen('home-screen')">⬅ Back to Class 9</button>
+
+  <h2 class="section-title">📘 Maths – Extra Questions & Answer Keys
+    <span class="tagline">Chapter‑wise practice sets, full sample papers, and a big question bank.</span>
+  </h2>
+
+  <section class="container">
+    <!-- Ch 1 -->
+    <a class="card" href="maths-class-ix-chapter-01-number-system-practice-paper-01.pdf" target="_blank">
+      <h2>Ch 1 – Number System (Q.P.)</h2>
+      <p>Practice paper on rational, irrational, and real numbers.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 1</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-01-number-system-practice-paper-01-answers.pdf" target="_blank">
+      <h2>Ch 1 – Number System (Answers)</h2>
+      <p>Fully solved answer key.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 1</span>
+      </div>
+    </a>
+
+    <!-- Ch 2 -->
+    <a class="card" href="maths-class-ix-chapter-02-polynomials-practice-paper-02.pdf" target="_blank">
+      <h2>Ch 2 – Polynomials (Q.P.)</h2>
+      <p>Identities and zeros of polynomials.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 2</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-02-polynomials-practice-paper-02-answers.pdf" target="_blank">
+      <h2>Ch 2 – Polynomials (Answers)</h2>
+      <p>Step‑wise factorisation and solutions.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 2</span>
+      </div>
+    </a>
+
+    <!-- Ch 3 -->
+    <a class="card" href="maths-class-ix-chapter-03-coordinate-geometry-practice-paper-03-2024.pdf" target="_blank">
+      <h2>Ch 3 – Coordinate Geometry (Q.P.)</h2>
+      <p>Plotting points, quadrants, and distance-type questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 3</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-03-coordinate-geometry-practice-paper-03-2024-answers.pdf" target="_blank">
+      <h2>Ch 3 – Coordinate Geometry (Answers)</h2>
+      <p>Correct plots and explanations.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 3</span>
+      </div>
+    </a>
+
+    <!-- Ch 4 -->
+    <a class="card" href="maths-class-ix-chapter-04-linear-equation-in-two-variables-practice-paper-04-2024.pdf" target="_blank">
+      <h2>Ch 4 – Linear Equations in Two Variables (Q.P.)</h2>
+      <p>Graphing and word problems.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 4</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-04-linear-equation-in-two-variables-practice-paper-04-2024-answers.pdf" target="_blank">
+      <h2>Ch 4 – Linear Equations in Two Variables (Answers)</h2>
+      <p>All graphs and calculations solved.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 4</span>
+      </div>
+    </a>
+
+    <!-- Ch 5 -->
+    <a class="card" href="maths-class-ix-chapter-05-introduction-to-euclids-geometry-practice-paper-06.pdf" target="_blank">
+      <h2>Ch 5 – Euclid’s Geometry (Q.P.)</h2>
+      <p>Definitions, axioms, and postulates based questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 5</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-05-introduction-to-euclids-geometry-practice-paper-06-answers.pdf" target="_blank">
+      <h2>Ch 5 – Euclid’s Geometry (Answers)</h2>
+      <p>Reasoning with proper statements.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 5</span>
+      </div>
+    </a>
+
+    <!-- Ch 6 -->
+    <a class="card" href="maths-class-ix-chapter-06-lines-and-angles-practice-paper-07.pdf" target="_blank">
+      <h2>Ch 6 – Lines & Angles (Q.P.)</h2>
+      <p>Vertically opposite, corresponding, and alternate angle questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 6</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-06-lines-and-angles-practice-paper-07-answers.pdf" target="_blank">
+      <h2>Ch 6 – Lines & Angles (Answers)</h2>
+      <p>Proper reasons for each angle relation.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 6</span>
+      </div>
+    </a>
+
+    <!-- Ch 7 -->
+    <a class="card" href="maths-class-ix-chapter-07-triangles-practice-paper-09.pdf" target="_blank">
+      <h2>Ch 7 – Triangles (Q.P.)</h2>
+      <p>Congruence criteria and theorem‑based questions.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 7</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-07-triangles-practice-paper-09-answers.pdf" target="_blank">
+      <h2>Ch 7 – Triangles (Answers)</h2>
+      <p>Proofs explained step‑by‑step.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 7</span>
+      </div>
+    </a>
+
+    <!-- Ch 8 -->
+    <a class="card" href="maths-class-ix-chapter-08-quadrilaterals-practice-paper-12.pdf" target="_blank">
+      <h2>Ch 8 – Quadrilaterals (Q.P.)</h2>
+      <p>Properties of parallelogram, rhombus, and more.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 8</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-08-quadrilaterals-practice-paper-12-answers.pdf" target="_blank">
+      <h2>Ch 8 – Quadrilaterals (Answers)</h2>
+      <p>Detailed reasoning with diagrams.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 8</span>
+      </div>
+    </a>
+
+    <!-- Ch 9 -->
+    <a class="card" href="maths-class-ix-chapter-09-circles-practice-paper-11-2024.pdf" target="_blank">
+      <h2>Ch 9 – Circles (Q.P.)</h2>
+      <p>Angle subtended by chord, cyclic quadrilaterals etc.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 9</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-09-circles-practice-paper-11-2024-answers.pdf" target="_blank">
+      <h2>Ch 9 – Circles (Answers)</h2>
+      <p>All constructions and proofs clearly written.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 9</span>
+      </div>
+    </a>
+
+    <!-- Ch 10 -->
+    <a class="card" href="maths-class-ix-chapter-10-herons-formula-practice-paper-12-2024-qp.pdf" target="_blank">
+      <h2>Ch 10 – Heron’s Formula (Q.P.)</h2>
+      <p>Area of triangles and application problems.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 10</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-10-herons-formula-practice-paper-12-2024-answers.pdf" target="_blank">
+      <h2>Ch 10 – Heron’s Formula (Answers)</h2>
+      <p>Simplified square root calculations.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 10</span>
+      </div>
+    </a>
+
+    <!-- Ch 11 -->
+    <a class="card" href="maths-class-ix-chapter-11-surface-areas-and-volumes-practice-paper-13-qp.pdf" target="_blank">
+      <h2>Ch 11 – Surface Areas & Volumes (Q.P.)</h2>
+      <p>Combined solids and word problems.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 11</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-11-surface-areas-and-volumes-practice-paper-13-answers.pdf" target="_blank">
+      <h2>Ch 11 – Surface Areas & Volumes (Answers)</h2>
+      <p>Neatly organised formula use and units.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 11</span>
+      </div>
+    </a>
+
+    <!-- Ch 12 -->
+    <a class="card" href="maths-class-ix-chapter-12-statistics-practice-paper-21-2024-qp.pdf" target="_blank">
+      <h2>Ch 12 – Statistics (Q.P.)</h2>
+      <p>Frequency table, mean, median, mode problems.</p>
+      <div class="tags-row">
+        <span class="tag">Question Paper</span>
+        <span class="tag gray">Maths Ch 12</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-chapter-12-statistics-practice-paper-21-2024-answers.pdf" target="_blank">
+      <h2>Ch 12 – Statistics (Answers)</h2>
+      <p>All data handling questions solved.</p>
+      <div class="tags-row">
+        <span class="tag">Answer Key</span>
+        <span class="tag gray">Maths Ch 12</span>
+      </div>
+    </a>
+
+    <!-- Sample papers + question bank -->
+    <a class="card" href="maths-class-ix-sample-paper-test-01-for-annual-exam-2025-qp.pdf" target="_blank">
+      <h2>Sample Paper – Test 01 (Q.P.)</h2>
+      <p>Full syllabus model paper for annual exam 2025.</p>
+      <div class="tags-row">
+        <span class="tag">Sample Q.P.</span>
+        <span class="tag gray">Test 1</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-sample-paper-test-01-for-annual-exam-2025-answers.pdf" target="_blank">
+      <h2>Sample Paper – Test 01 (Answers)</h2>
+      <p>Marking scheme and solutions.</p>
+      <div class="tags-row">
+        <span class="tag">Sample Answers</span>
+        <span class="tag gray">Test 1</span>
+      </div>
+    </a>
+
+    <a class="card" href="maths-class-ix-sample-paper-test-02-for-annual-exam-2025-qp.pdf" target="_blank">
+      <h2>Sample Paper – Test 02 (Q.P.)</h2>
+      <p>Another variant for extra practice.</p>
+      <div class="tags-row">
+        <span class="tag">Sample Q.P.</span>
+        <span class="tag gray">Test 2</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-sample-paper-test-02-for-annual-exam-2025-answers.pdf" target="_blank">
+      <h2>Sample Paper – Test 02 (Answers)</h2>
+      <p>Detailed solution key.</p>
+      <div class="tags-row">
+        <span class="tag">Sample Answers</span>
+        <span class="tag gray">Test 2</span>
+      </div>
+    </a>
+
+    <a class="card" href="maths-class-ix-sample-paper-test-03-for-annual-exam-2025-qp.pdf" target="_blank">
+      <h2>Sample Paper – Test 03 (Q.P.)</h2>
+      <p>Final mock test before exam.</p>
+      <div class="tags-row">
+        <span class="tag">Sample Q.P.</span>
+        <span class="tag gray">Test 3</span>
+      </div>
+    </a>
+    <a class="card" href="maths-class-ix-sample-paper-test-03-for-annual-exam-2025-answers.pdf" target="_blank">
+      <h2>Sample Paper – Test 03 (Answers)</h2>
+      <p>Self‑checking answer key.</p>
+      <div class="tags-row">
+        <span class="tag">Sample Answers</span>
+        <span class="tag gray">Test 3</span>
+      </div>
+    </a>
+
+    <a class="card" href="maths-class-ix-question-bank.pdf" target="_blank">
+      <h2>📚 Maths Class 9 – Question Bank</h2>
+      <p>Full chapter‑wise question bank for complete practice.</p>
+      <div class="tags-row">
+        <span class="tag">Question Bank</span>
+        <span class="tag gray">All Chapters</span>
+      </div>
+    </a>
+  </section>
+</div>
+
+<footer>
+  <span>🔥 Class 9th Phodenge • Smart Practice • Smart Notes</span>
+  <span>Use this page locally or upload to GitHub Pages with the same filenames.</span>
+  <p>MADE BY – SHREEKRISHNA PAWAR</p>
+</footer>
+
+<script>
+  function showScreen(id){
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+
 </body>
 </html>
