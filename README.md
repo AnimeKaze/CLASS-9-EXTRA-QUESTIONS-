@@ -837,7 +837,7 @@
 
 <footer>
   <span>🔥 Class 9th Phodenge • Smart Practice • Smart Notes</span>
-  <span>Use this page locally or upload to GitHub Pages with the same filenames.</span>
+ 
   <p>MADE BY – SHREEKRISHNA PAWAR</p>
 </footer>
 
