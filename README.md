@@ -837,10 +837,8 @@
 
 <footer>
   <span>🔥 Class 9th Phodenge • Smart Practice • Smart Notes</span>
- 
-  <p>MADE BY – SHREEKRISHNA PAWAR</p>
+ <p>MADE BY – SHREEKRISHNA PAWAR</p>
 </footer>
-
 <script>
   function showScreen(id){
     const screens = document.querySelectorAll('.screen');
