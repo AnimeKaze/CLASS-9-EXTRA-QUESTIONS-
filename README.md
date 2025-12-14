@@ -2,19 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- GitHub Pages auto-zoom & font fix -->
+  <meta name="viewport"
+        content="width=device-width,
+                 initial-scale=1.0,
+                 maximum-scale=1.0,
+                 user-scalable=no" />
+
   <title>Class 9 Super Study Hub ⚡</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
   <style>
     *{
-      margin:0; padding:0; box-sizing:border-box;
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
       font-family:'Poppins', sans-serif;
     }
+
+    html{
+      -webkit-text-size-adjust:100%;
+    }
+
     body{
       min-height:100vh;
       background: radial-gradient(circle at top,#0f2027,#203a43,#2c5364);
       color:#fff;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
+
     header{
       padding:30px 15px 10px;
       text-align:center;
@@ -36,7 +55,6 @@
       opacity:0.7;
     }
 
-    /* screens */
     .screen{
       display:none;
       animation: fadeIn 0.25s ease;
@@ -66,7 +84,6 @@
       min-width:220px;
       padding:16px 22px;
       border-radius:18px;
-      text-decoration:none;
       color:#fff;
       font-size:1rem;
       font-weight:700;
@@ -98,18 +115,19 @@
     .section-title span.tagline{
       display:block;
       font-size:0.8rem;
-      font-weight:400;
       opacity:0.7;
       margin-top:2px;
     }
+
     .container{
       max-width:1200px;
       margin:0 auto 10px;
       padding:10px 20px 0;
       display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
       gap:18px;
     }
+
     .card{
       background: rgba(255,255,255,0.08);
       backdrop-filter: blur(10px);
@@ -117,38 +135,16 @@
       padding:20px 18px;
       box-shadow:0 10px 30px rgba(0,0,0,0.35);
       transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-      cursor:pointer;
-      position:relative;
-      overflow:hidden;
       text-decoration:none;
       color:#fff;
     }
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      opacity:0;
-      background:radial-gradient(circle at top,#ffffff33,transparent 60%);
-      transition:opacity 0.25s, transform 0.25s;
-      transform:translateY(20px);
-    }
-    .card:hover::before{
-      opacity:1;
-      transform:translateY(0);
-    }
+
     .card:hover{
       transform: translateY(-8px) scale(1.02);
       box-shadow:0 16px 40px rgba(0,0,0,0.6);
       background: rgba(255,255,255,0.12);
     }
-    .card h2{
-      font-size:1.1rem;
-      margin-bottom:6px;
-    }
-    .card p{
-      font-size:0.87rem;
-      opacity:0.92;
-    }
+
     .tags-row{
       margin-top:10px;
       display:flex;
@@ -156,12 +152,11 @@
       gap:6px;
       font-size:0.7rem;
     }
+
     .tag{
-      display:inline-block;
       padding:4px 10px;
       border-radius:50px;
       background: linear-gradient(90deg,#ff512f,#dd2476);
-      font-size:0.72rem;
       font-weight:600;
     }
     .tag.gray{
@@ -177,12 +172,8 @@
       border:none;
       cursor:pointer;
       font-size:0.85rem;
-      font-weight:600;
       background:rgba(0,0,0,0.45);
       color:#fff;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
     }
 
     footer{
@@ -191,7 +182,6 @@
       opacity:0.8;
       font-size:0.85rem;
     }
-    footer span{display:block;}
   </style>
 </head>
 <body>
@@ -837,12 +827,21 @@
 
 <footer>
   <span>🔥 Class 9th Phodenge • Smart Practice • Smart Notes</span>
- <p>MADE BY – SHREEKRISHNA PAWAR</p>
+ 
+  <p>MADE BY – SHREEKRISHNA PAWAR</p>
 </footer>
+
 <script>
   function showScreen(id){
     const screens = document.querySelectorAll('.screen');
     screens.forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+<script>
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});
   }
